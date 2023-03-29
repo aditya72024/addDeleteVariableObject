@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+  <title>Item Lister</title>
+</head>
+<body>
+
+      <div class="container">
+       <div id="main" class="card card-body">
+        <form id="addForm" class="">
+            <div class="row">
+                <div class="col-md-3 col-sm-12 col-xs-12">
+                    <label for="email">Email </label>
+                    <input type="email" class="form-control" id="email">
+                </div>
+                <div class="col-md-3 col-sm-12 col-xs-12">
+                    <label for="Name">Name </label>
+                    <input type="text" class="form-control" id="name">
+                </div>
+                <div class="col-md-3 col-sm-12 col-xs-12">
+                    <label for="Phone">Phone </label>
+                    <input type="tel" class="form-control" id="phone">
+                </div>
+                <div class="col-md-3 col-sm-12 col-xs-12">
+                    <input type="submit" class="btn btn-dark" value="Submit" style="margin-top: 13%;">
+                </div>
+            </div>
+
+          
+          
+        </form>
+        <h2 class="title">Data</h2>
+        <ul id="items" class="list-group">
+          
+        </ul>
+       </div>
+      </div>
+
+</body>
+<script>
+
+var form = document.getElementById("addForm");
+var ul = document.getElementById("items");
+
+form.addEventListener('submit', addItem);
+
+function addItem(e){
+    e.preventDefault();
+    var email = document.getElementById("email").value;
+    var name = document.getElementById("name").value;
+    var phone = document.getElementById("phone").value;
+    var value = name + ',' + phone + ',' + email;
+    li = document.createElement('li');
+    li.className = 'list-group-item';
+    li.appendChild(document.createTextNode(value));
+    ul.appendChild(li);
+    var entryObject = {};
+    entryObject.email = email;
+    entryObject.name = name;
+    entryObject.phone = phone;
+    localStorage.setItem(email,JSON.stringify(entryObject));
+
+
+}
+
+
+</script>
+</html>
