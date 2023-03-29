@@ -47,16 +47,23 @@ var form = document.getElementById("addForm");
 var ul = document.getElementById("items");
 
 form.addEventListener('submit', addItem);
+ul.addEventListener('click', removeItem);
 
 function addItem(e){
     e.preventDefault();
     var email = document.getElementById("email").value;
     var name = document.getElementById("name").value;
     var phone = document.getElementById("phone").value;
-    var value = name + ',' + phone + ',' + email;
+    var value = email + ',' + name + ',' + phone;
     li = document.createElement('li');
     li.className = 'list-group-item';
     li.appendChild(document.createTextNode(value));
+
+    var deleteBtn = document.createElement('button');
+    deleteBtn.className = 'btn btn-primary btn-sm float-right delete';
+    deleteBtn.appendChild(document.createTextNode('Delete'));
+    li.appendChild(deleteBtn);
+
     ul.appendChild(li);
     var entryObject = {};
     entryObject.email = email;
@@ -65,6 +72,21 @@ function addItem(e){
     localStorage.setItem(email,JSON.stringify(entryObject));
 
 
+}
+
+function removeItem(e){
+    e.preventDefault();
+    if(e.target.classList.contains('delete')){
+        if(confirm("Are you sure?")){
+            var liRemove = e.target.parentElement;
+            var liRemoveEmail = liRemove.textContent.split(',')[0];
+            console.log(liRemoveEmail);
+            ul.removeChild(liRemove);
+            localStorage.removeItem(liRemoveEmail);
+            
+
+        }
+    }
 }
 
 
