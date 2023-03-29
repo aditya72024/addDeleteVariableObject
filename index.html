@@ -45,9 +45,11 @@
 
 var form = document.getElementById("addForm");
 var ul = document.getElementById("items");
+var deleteItems = document.getElementsByClassName("delete");
 
 form.addEventListener('submit', addItem);
 ul.addEventListener('click', removeItem);
+// deleteItems = document.addEventListener('click', removeItem);
 
 function addItem(e){
     e.preventDefault();
@@ -64,6 +66,12 @@ function addItem(e){
     deleteBtn.appendChild(document.createTextNode('Delete'));
     li.appendChild(deleteBtn);
 
+    var editBtn = document.createElement('button');
+    editBtn.className = 'btn btn-primary btn-sm float-right edit';
+    editBtn.appendChild(document.createTextNode('Edit'));
+    li.appendChild(editBtn);
+
+
     ul.appendChild(li);
     var entryObject = {};
     entryObject.email = email;
@@ -71,22 +79,45 @@ function addItem(e){
     entryObject.phone = phone;
     localStorage.setItem(email,JSON.stringify(entryObject));
 
+    document.getElementById("email").value = '';
+    document.getElementById("name").value = '';
+    document.getElementById("phone").value = '';
+
 
 }
 
 function removeItem(e){
-    e.preventDefault();
-    if(e.target.classList.contains('delete')){
+
+
+
+    if(e.target.classList.contains('delete') || e.target.classList.contains('edit'))
+    {
         if(confirm("Are you sure?")){
             var liRemove = e.target.parentElement;
             var liRemoveEmail = liRemove.textContent.split(',')[0];
-            console.log(liRemoveEmail);
             ul.removeChild(liRemove);
+            savedData = JSON.parse(localStorage.getItem(liRemoveEmail));
             localStorage.removeItem(liRemoveEmail);
             
 
         }
     }
+
+    if(e.target.classList.contains('edit'))
+    {
+         email = savedData.email;
+         name = savedData.name;
+         phone = savedData.phone;
+
+         document.getElementById("name").value = name;
+         document.getElementById("email").value = email;
+         document.getElementById("phone").value = phone;
+
+     }
+
+
+
+
 }
 
 
